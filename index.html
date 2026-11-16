@@ -46,6 +46,8 @@
               <span></span>
             </div>
             <div class="rug" aria-hidden="true"></div>
+            <div class="toy-ball" aria-hidden="true"></div>
+            <div class="food-bowl" aria-hidden="true"></div>
             <div class="pet-wrap">
               <span class="reaction-symbol" id="reaction-symbol" aria-hidden="true"></span>
               <img class="pet-image" src="images/miso.svg" width="310" height="310" alt="Miso, a round orange cat with striped fur and a green collar" draggable="false">
@@ -138,7 +140,17 @@
           <p class="care-hint">Play uses 15 energy; exercise uses 20. Nap restores 25.<br>Miso needs energy and at least 1 lb of weight to play or exercise.</p>
         </section>
       </div>
+      <section class="milestones" aria-labelledby="milestones-title">
+        <h2 id="milestones-title">Miso’s milestones</h2>
+        <p>Play three times, nap when energy is below 20, and try all four activities.</p>
+        <div class="badge-list" aria-live="polite" aria-atomic="true">
+          <span id="catch-badge" data-earned="false">○ Catch practice</span>
+          <span id="rest-badge" data-earned="false">○ Second wind</span>
+          <span id="care-badge" data-earned="false">○ A bit of everything</span>
+        </div>
+      </section>
       <div class="reset-bar">
+        <button type="button" class="text-button" id="sound-button" aria-pressed="false">Sound: off</button>
         <button type="button" class="text-button" id="reset-button">Reset game <span aria-hidden="true">↺</span>
         </button>
       </div>
@@ -149,7 +161,7 @@
     <dialog id="reset-dialog" aria-labelledby="reset-title">
       <form method="dialog">
         <h2 id="reset-title">Reset Miso’s stats?</h2>
-        <p>Weight, happiness, and energy will return to their starting values.</p>
+        <p>Stats and milestones will return to their starting values.</p>
         <div class="dialog-actions">
           <button value="cancel" class="dialog-cancel" autofocus>Cancel</button>
           <button value="reset" class="dialog-confirm">Reset</button>

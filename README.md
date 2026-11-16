@@ -4,6 +4,14 @@
 
 Care for Miso using Treat, Play, Exercise, and Nap. Nap restores energy used by Play and Exercise. Stats cannot go below zero; happiness and energy are capped at 100.
 
+## Features
+
+- Blinking eyes, ear twitches, and a swishing tail.
+- A rolling ball during Play, a bowl during Treat, and sleepy breathing at low energy.
+- Three care milestones: play three times, nap below 20 energy, and try every activity. Reset clears them.
+- Optional sounds made with the Web Audio API. Sound is off until enabled.
+- Reduced-motion support for animations.
+
 ## jQuery methods
 
 - [`.queue()`](https://api.jquery.com/queue/): lines up the cat’s visual reactions.

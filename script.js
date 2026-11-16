@@ -3,6 +3,10 @@
 var pet_info = { name: "Miso", weight: 12, happiness: 60, energy: 70 };
 var reactionRunning = false;
 var reactionTimer;
+var soundEnabled = false;
+var audioContext;
+var careProgress = { treat: 0, play: 0, exercise: 0, nap: 0 };
+var restedWhenTired = false;
 
 var petComments = {
   treat: ["Thanks for the treat!", "Another snack? Yes, please.", "That was tasty!"],
@@ -18,6 +22,7 @@ $(function () {
   $(".play-button").click(clickedPlayButton);
   $(".exercise-button").click(clickedExerciseButton);
   $(".nap-button").click(clickedNapButton);
+  document.getElementById("sound-button").addEventListener("click", toggleSound);
 
   var resetDialog = document.getElementById("reset-dialog");
   document.getElementById("reset-button").addEventListener("click", function () {
@@ -58,6 +63,9 @@ function clickedExerciseButton() {
 
 // Napping restores energy used by play and exercise.
 function clickedNapButton() {
+  if (pet_info.energy < 20) {
+    restedWhenTired = true;
+  }
   pet_info.energy += 25;
   pet_info.happiness += 5;
   finishAction("nap");
@@ -76,11 +84,13 @@ function canMove(energyNeeded) {
 }
 
 function finishAction(action) {
+  careProgress[action] += 1;
   checkAndUpdatePetInfoInHtml();
   var comments = petComments[action];
   var index = commentIndexes[action] % comments.length;
   $("#pet-comment").text(comments[index]);
   commentIndexes[action] += 1;
+  updateMilestones();
   queuePetReaction(action);
 }
 
@@ -117,6 +127,8 @@ function updatePetInfoInHtml() {
     mood = "Very happy";
   }
   $("#mood").text(mood);
+  document.getElementById("scene").dataset.mood = pet_info.energy < 20 ? "tired" :
+    (pet_info.happiness >= 80 ? "happy" : "calm");
 }
 
 function queuePetReaction(action) {
@@ -135,6 +147,7 @@ function queuePetReaction(action) {
   $(scene).queue("reactions", function () {
     reactionRunning = true;
     scene.dataset.action = action;
+    playActionSound(action);
     $("#reaction-symbol").text(symbols[action]);
     reactionTimer = window.setTimeout(function () {
       scene.dataset.action = "idle";
@@ -162,6 +175,74 @@ function resetPet() {
   $("#reaction-symbol").text("");
   pet_info = { name: "Miso", weight: 12, happiness: 60, energy: 70 };
   commentIndexes = { treat: 0, play: 0, exercise: 0, nap: 0 };
+  careProgress = { treat: 0, play: 0, exercise: 0, nap: 0 };
+  restedWhenTired = false;
+  updateMilestones();
   checkAndUpdatePetInfoInHtml();
   $("#pet-comment").text("Hi! Can we play?");
+}
+
+function updateMilestones() {
+  var milestones = [
+    { id: "catch-badge", label: "Catch practice", earned: careProgress.play >= 3 },
+    { id: "rest-badge", label: "Second wind", earned: restedWhenTired },
+    { id: "care-badge", label: "A bit of everything", earned: Object.keys(careProgress).every(function (action) {
+      return careProgress[action] > 0;
+    }) }
+  ];
+  milestones.forEach(function (milestone) {
+    var badge = document.getElementById(milestone.id);
+    badge.dataset.earned = String(milestone.earned);
+    $(badge).text((milestone.earned ? "✓ " : "○ ") + milestone.label);
+  });
+}
+
+async function toggleSound() {
+  var button = document.getElementById("sound-button");
+  try {
+    if (!audioContext) {
+      var AudioEngine = window.AudioContext || window.webkitAudioContext;
+      if (!AudioEngine) {
+        throw new Error("Audio unavailable");
+      }
+      audioContext = new AudioEngine();
+    }
+    await audioContext.resume();
+    soundEnabled = !soundEnabled;
+    button.setAttribute("aria-pressed", String(soundEnabled));
+    $(button).text(soundEnabled ? "Sound: on" : "Sound: off");
+    if (soundEnabled) {
+      playActionSound("treat");
+    }
+  } catch (error) {
+    soundEnabled = false;
+    button.setAttribute("aria-pressed", "false");
+    $(button).text("Sound unavailable");
+  }
+}
+
+// Generate short tones locally; sound starts only after the player enables it.
+function playActionSound(action) {
+  if (!soundEnabled || !audioContext || audioContext.state !== "running") {
+    return;
+  }
+  var notes = { treat: [523, 659, 784], play: [392, 587, 784], exercise: [330, 392, 330], nap: [392, 330, 262] };
+  notes[action].forEach(function (frequency, index) {
+    var oscillator = audioContext.createOscillator();
+    var gain = audioContext.createGain();
+    var start = audioContext.currentTime + index * 0.09;
+    oscillator.type = action === "nap" ? "sine" : "triangle";
+    oscillator.frequency.setValueAtTime(frequency, start);
+    gain.gain.setValueAtTime(0, start);
+    gain.gain.linearRampToValueAtTime(0.035, start + 0.015);
+    gain.gain.exponentialRampToValueAtTime(0.001, start + 0.14);
+    oscillator.connect(gain);
+    gain.connect(audioContext.destination);
+    oscillator.start(start);
+    oscillator.stop(start + 0.15);
+    oscillator.onended = function () {
+      oscillator.disconnect();
+      gain.disconnect();
+    };
+  });
 }

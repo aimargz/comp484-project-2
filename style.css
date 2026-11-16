@@ -915,3 +915,28 @@ dialog p:not(.eyebrow) {
   justify-content: flex-end;
   padding: 14px 0;
 }
+
+.milestones { margin-top: 20px; padding: 20px; border: 1px solid var(--line); border-radius: 12px; }
+.milestones h2 { font-size: 22px; letter-spacing: 0; }
+.milestones p { font-size: 11px; color: #68725d; line-height: 1.7; }
+.badge-list { display: flex; flex-wrap: wrap; gap: 10px; }
+.badge-list span { border: 1px solid var(--line); border-radius: 20px; padding: 9px 12px; font-size: 11px; color: #6d7464; }
+.badge-list [data-earned="true"] { background: #e4ecd7; border-color: #9aaa83; color: #354a2c; }
+.reset-bar { gap: 20px; }
+#sound-button[aria-pressed="true"] { color: #354a2c; font-weight: 700; }
+.toy-ball, .food-bowl { position: absolute; opacity: 0; pointer-events: none; }
+.toy-ball { width: 32px; height: 32px; border: 3px solid #ab7554; border-radius: 50%; background: repeating-linear-gradient(45deg, #eccb8c 0 5px, #d8a66c 5px 8px); bottom: 48px; left: 28%; }
+.food-bowl { width: 55px; height: 22px; background: #ba8064; border: 3px solid #8c624d; border-radius: 4px 4px 24px 24px; bottom: 43px; left: 44%; }
+.scene[data-action="play"] .toy-ball { opacity: 1; animation: chase-ball 1.2s ease-in-out; }
+.scene[data-action="treat"] .food-bowl { opacity: 1; }
+.scene[data-action="nap"] { background-color: #e1e5dd; }
+.scene[data-mood="tired"][data-action="idle"] .pet-image { animation: snooze 3s ease-in-out infinite; }
+.scene[data-mood="happy"][data-action="idle"] .reaction-symbol::after { content: "♥"; font-size: 22px; opacity: .65; }
+@keyframes chase-ball {
+  0%, 100% { transform: translateX(0) rotate(0); }
+  45% { transform: translateX(105px) translateY(-18px) rotate(240deg); }
+  70% { transform: translateX(70px) rotate(300deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scene .pet-image, .scene .toy-ball { animation: none !important; }
+}
