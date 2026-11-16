@@ -1,15 +1,14 @@
 "use strict";
 
 var pet_info = { name: "Miso", weight: 12, happiness: 60, energy: 70 };
-var activityCount = 0;
 var reactionRunning = false;
 var reactionTimer;
 
 var petComments = {
-  treat: ["A snack? For me? You really get me.", "I heard the treat bag from the other room.", "I’ll accept this as an apology for the empty bowl."],
-  play: ["That ball never stood a chance.", "Again! Wait, let me catch my breath.", "I meant to land like that. Obviously."],
-  exercise: ["A whole workout? I was built for lounging.", "Fine. But I’m taking the sunny spot after this.", "That counts as cardio for the week, right?"],
-  nap: ["Wake me when it’s snack time.", "Just five more minutes. Maybe twenty.", "Dreaming of a very large bowl of treats."]
+  treat: ["Thanks for the treat!", "Another snack? Yes, please.", "That was tasty!"],
+  play: ["Throw it again!", "I caught it!", "Let’s keep playing!"],
+  exercise: ["That was a long walk.", "My paws need a break.", "Can we head home now?"],
+  nap: ["Time for a nap.", "Five more minutes, please.", "I feel rested!"]
 };
 var commentIndexes = { treat: 0, play: 0, exercise: 0, nap: 0 };
 
@@ -57,7 +56,7 @@ function clickedExerciseButton() {
   finishAction("exercise");
 }
 
-// Nap is the extra action: it restores energy used by play and exercise.
+// Napping restores energy used by play and exercise.
 function clickedNapButton() {
   pet_info.energy += 25;
   pet_info.happiness += 5;
@@ -66,18 +65,17 @@ function clickedNapButton() {
 
 function canMove(energyNeeded) {
   if (pet_info.weight <= 0) {
-    $("#pet-comment").text("My tummy’s empty. A treat before we move?");
+    $("#pet-comment").text("I’m hungry. Can I have a treat first?");
     return false;
   }
   if (pet_info.energy < energyNeeded) {
-    $("#pet-comment").text("I’m all out of zoomies. Let’s take a nap first.");
+    $("#pet-comment").text("I’m tired. I need a nap first.");
     return false;
   }
   return true;
 }
 
 function finishAction(action) {
-  activityCount += 1;
   checkAndUpdatePetInfoInHtml();
   var comments = petComments[action];
   var index = commentIndexes[action] % comments.length;
@@ -105,19 +103,18 @@ function updatePetInfoInHtml() {
   $(".weight").text(pet_info.weight);
   $(".happiness").text(pet_info.happiness);
   $(".energy").text(pet_info.energy);
-  $("#activity-count").text(activityCount);
   document.getElementById("happiness-meter").value = pet_info.happiness;
   document.getElementById("energy-meter").value = pet_info.energy;
 
-  var mood = "Feeling good";
+  var mood = "Happy";
   if (pet_info.weight === 0) {
     mood = "Needs a treat";
   } else if (pet_info.energy < 20) {
     mood = "Ready for a nap";
   } else if (pet_info.happiness < 30) {
-    mood = "Needs some love";
+    mood = "Unhappy";
   } else if (pet_info.happiness >= 80) {
-    mood = "On cloud nine";
+    mood = "Very happy";
   }
   $("#mood").text(mood);
 }
@@ -126,12 +123,12 @@ function queuePetReaction(action) {
   var scene = document.getElementById("scene");
   var symbols = { treat: "♥", play: "✦", exercise: "➜", nap: "z z Z" };
 
-  // .queue() stores reaction functions on the scene in a custom queue named "reactions".
-  // Each function changes the cat's pose and symbol for 650 ms. A named queue does
-  // not start automatically, so .dequeue() starts it when no reaction is running.
-  // Limit waiting reactions to four so rapid clicks do not create a long backlog;
-  // stats and the speech bubble still update immediately for every accepted action.
-  // Documentation: https://api.jquery.com/queue/
+  // .queue("reactions", callback) adds a visual reaction to this scene's named queue.
+  // Reading .queue("reactions").length counts waiting reactions; passing [] clears
+  // them when four are waiting. Stats and comments still update on every action.
+  // Each callback sets the pose and symbol for 1.2 seconds. Named queues do not start
+  // automatically, so .dequeue("reactions") starts the first callback below.
+  // https://api.jquery.com/queue/
   if ($(scene).queue("reactions").length >= 4) {
     $(scene).queue("reactions", []);
   }
@@ -145,13 +142,12 @@ function queuePetReaction(action) {
       // The brief idle frame restarts the CSS animation for repeated activities.
       reactionTimer = window.setTimeout(function () {
         reactionRunning = false;
-        // .dequeue() removes and runs the next function from "reactions" on this
-        // same scene. Calling it after the timer keeps reactions from overlapping.
-        // When the queue is empty, nothing runs and the cat stays in its idle pose.
-        // Documentation: https://api.jquery.com/dequeue/
+        // .dequeue("reactions") removes and runs the next waiting callback on this
+        // scene. Calling it after the timer prevents overlapping reactions.
+        // An empty queue leaves the cat idle. https://api.jquery.com/dequeue/
         $(scene).dequeue("reactions");
       }, 40);
-    }, 650);
+    }, 1200);
   });
   if (!reactionRunning) {
     $(scene).dequeue("reactions");
@@ -165,8 +161,7 @@ function resetPet() {
   document.getElementById("scene").dataset.action = "idle";
   $("#reaction-symbol").text("");
   pet_info = { name: "Miso", weight: 12, happiness: 60, energy: 70 };
-  activityCount = 0;
   commentIndexes = { treat: 0, play: 0, exercise: 0, nap: 0 };
   checkAndUpdatePetInfoInHtml();
-  $("#pet-comment").text("A fresh start. Same favorite human.");
+  $("#pet-comment").text("Hi! Can we play?");
 }

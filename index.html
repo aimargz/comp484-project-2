@@ -1,62 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Meet Miso, your little virtual cat. Share a treat, play together, and make time for a nap.">
-  <meta name="theme-color" content="#40523b">
-  <title>Miso · Your GigaPet</title>
-  <link rel="icon" type="image/svg+xml" href="images/miso.svg">
-  <link rel="stylesheet" href="style.css">
-  <script src="vendor/jquery-3.7.1.min.js" defer></script>
-  <script src="script.js" defer></script>
-</head>
-<body>
-  <header class="site-header">
-    <a class="brand" href="./" aria-label="Miso home"><span class="brand-mark" aria-hidden="true">m.</span> miso<span class="brand-divider">/</span><span class="brand-caption">a little GigaPet</span></a>
-    <span class="header-note"><span class="status-dot"></span> Your daily dose of company</span>
-  </header>
-
-  <main>
-    <div class="intro">
-      <div><p class="eyebrow">A SMALL FRIEND. A GOOD DAY.</p><h1>A little care.<br>A lot of <em>love.</em></h1></div>
-      <p class="intro-copy">Meet Miso. Big on naps, easily won over by treats.<br>Stick around. You’re already the favorite human.</p>
-    </div>
-
-    <div class="game-layout">
-      <section class="pet-room" aria-labelledby="room-title">
-        <div class="room-header"><span class="room-label" id="room-title"><span class="status-dot"></span> MISO’S LITTLE CORNER</span><span class="mood-badge" id="mood">Feeling good</span></div>
-        <div class="scene" id="scene" data-action="idle">
-          <div class="window" aria-hidden="true"><span class="sun"></span><span class="cloud"></span></div>
-          <div class="room-caption" aria-hidden="true">home, sweet home.</div>
-          <div class="plant" aria-hidden="true"><i></i><i></i><i></i><span></span></div>
-          <div class="rug" aria-hidden="true"></div>
-          <div class="pet-wrap"><span class="reaction-symbol" id="reaction-symbol" aria-hidden="true"></span><img class="pet-image" src="images/miso.svg" width="310" height="310" alt="Miso, a round orange cat with striped fur and a green collar" draggable="false"></div>
-          <span class="room-floor-label" aria-hidden="true">EST. TODAY · BEST FRIENDS FOREVER</span>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A GigaPet game for COMP 484. Feed, play, exercise, and rest with Miso the cat.">
+    <meta name="theme-color" content="#40523b">
+    <title>Miso · Your GigaPet</title>
+    <link rel="icon" type="image/svg+xml" href="images/miso.svg">
+    <link rel="stylesheet" href="style.css">
+    <script src="vendor/jquery-3.7.1.min.js" defer></script>
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="./" aria-label="Miso home">
+        <span class="brand-mark" aria-hidden="true">m.</span> miso<span class="brand-divider">/</span>
+        <span class="brand-caption">GigaPet</span>
+      </a>
+    </header>
+    <main>
+      <div class="intro">
+        <div>
+          <p class="eyebrow">COMP 484 · PROJECT 2</p>
+          <h1>Meet <em>Miso.</em>
+          </h1>
         </div>
-        <div class="speech" role="status" aria-live="polite" aria-atomic="true"><span class="speech-icon" aria-hidden="true">“</span><div><span class="speech-label">MISO SAYS</span><p id="pet-comment">Oh, you’re here! I saved you a spot.</p></div></div>
-      </section>
-
-      <section class="dashboard" aria-labelledby="pet-title">
-        <div class="profile-header"><div><p class="eyebrow">YOUR LITTLE COMPANION</p><h2 id="pet-title">Hi, I’m <span class="name">Miso</span><span class="profile-flower" aria-hidden="true">✳</span></h2></div><p class="profile-description">Professional napper. Amateur troublemaker.</p></div>
-        <div class="stats">
-          <div class="stat"><div class="stat-heading"><span>Happiness</span><span><strong class="happiness">60</strong><span class="stat-unit"> / 100 wags</span></span></div><meter id="happiness-meter" min="0" max="100" value="60" aria-label="Happiness">60 out of 100</meter></div>
-          <div class="stat weight-stat"><div class="stat-heading"><span>Weight</span><span><strong class="weight">12</strong><span class="stat-unit"> lb</span></span></div><p>A treat adds 1 lb. Moving burns 1 lb.</p></div>
-          <div class="stat"><div class="stat-heading"><span>Energy</span><span><strong class="energy">70</strong><span class="stat-unit"> / 100</span></span></div><meter id="energy-meter" min="0" max="100" value="70" aria-label="Energy">70 out of 100</meter></div>
+        <p class="intro-copy">Give Miso a treat, play, exercise, or take a nap.</p>
+      </div>
+      <div class="game-layout">
+        <section class="pet-room" aria-labelledby="room-title">
+          <div class="room-header">
+            <span class="room-label" id="room-title">
+              <span class="status-dot"></span> MISO’S ROOM</span>
+            <span class="mood-badge" id="mood">Happy</span>
+          </div>
+          <div class="scene" id="scene" data-action="idle">
+            <div class="window" aria-hidden="true">
+              <span class="sun"></span>
+              <span class="cloud"></span>
+            </div>
+            <div class="plant" aria-hidden="true">
+              <i></i>
+              <i></i>
+              <i></i>
+              <span></span>
+            </div>
+            <div class="rug" aria-hidden="true"></div>
+            <div class="pet-wrap">
+              <span class="reaction-symbol" id="reaction-symbol" aria-hidden="true"></span>
+              <img class="pet-image" src="images/miso.svg" width="310" height="310" alt="Miso, a round orange cat with striped fur and a green collar" draggable="false">
+            </div>
+          </div>
+          <div class="speech" role="status" aria-live="polite" aria-atomic="true">
+            <span class="speech-icon" aria-hidden="true">“</span>
+            <div>
+              <span class="speech-label">MISO SAYS</span>
+              <p id="pet-comment">Hi! Can we play?</p>
+            </div>
+          </div>
+        </section>
+        <section class="dashboard" aria-labelledby="pet-title">
+          <div class="profile-header">
+            <h2 id="pet-title">
+              <span class="name">Miso</span>
+              <span class="profile-flower" aria-hidden="true">✳</span>
+            </h2>
+          </div>
+          <div class="stats">
+            <div class="stat">
+              <div class="stat-heading">
+                <span>Happiness</span>
+                <span>
+                  <strong class="happiness">60</strong>
+                  <span class="stat-unit"> / 100 wags</span>
+                </span>
+              </div>
+              <meter id="happiness-meter" min="0" max="100" value="60" aria-label="Happiness">60 out of 100</meter>
+            </div>
+            <div class="stat weight-stat">
+              <div class="stat-heading">
+                <span>Weight</span>
+                <span>
+                  <strong class="weight">12</strong>
+                  <span class="stat-unit"> lb</span>
+                </span>
+              </div>
+              <p>A treat adds 1 lb. Moving burns 1 lb.</p>
+            </div>
+            <div class="stat">
+              <div class="stat-heading">
+                <span>Energy</span>
+                <span>
+                  <strong class="energy">70</strong>
+                  <span class="stat-unit"> / 100</span>
+                </span>
+              </div>
+              <meter id="energy-meter" min="0" max="100" value="70" aria-label="Energy">70 out of 100</meter>
+            </div>
+          </div>
+          <div class="care-header">
+            <h3>Activities</h3>
+          </div>
+          <div class="button-container">
+            <button type="button" class="care-button treat-button" data-action="treat">
+              <span class="button-icon" aria-hidden="true">♧</span>
+              <span>
+                <strong>Treat</strong>
+                <small>Happiness +10 · Weight +1</small>
+              </span>
+              <span class="button-arrow" aria-hidden="true">↗</span>
+            </button>
+            <button type="button" class="care-button play-button" data-action="play">
+              <span class="button-icon" aria-hidden="true">✳</span>
+              <span>
+                <strong>Play</strong>
+                <small>Happiness +15 · Weight −1</small>
+              </span>
+              <span class="button-arrow" aria-hidden="true">↗</span>
+            </button>
+            <button type="button" class="care-button exercise-button" data-action="exercise">
+              <span class="button-icon" aria-hidden="true">↝</span>
+              <span>
+                <strong>Exercise</strong>
+                <small>Happiness −5 · Weight −1</small>
+              </span>
+              <span class="button-arrow" aria-hidden="true">↗</span>
+            </button>
+            <button type="button" class="care-button nap-button" data-action="nap">
+              <span class="button-icon" aria-hidden="true">☾</span>
+              <span>
+                <strong>Nap</strong>
+                <small>Energy +25 · Happiness +5</small>
+              </span>
+              <span class="button-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
+          <p class="care-hint">Play uses 15 energy; exercise uses 20. Nap restores 25.<br>Miso needs energy and at least 1 lb of weight to play or exercise.</p>
+        </section>
+      </div>
+      <div class="reset-bar">
+        <button type="button" class="text-button" id="reset-button">Reset game <span aria-hidden="true">↺</span>
+        </button>
+      </div>
+    </main>
+    <footer>
+      <span>COMP 484 · GIGAPET</span>
+    </footer>
+    <dialog id="reset-dialog" aria-labelledby="reset-title">
+      <form method="dialog">
+        <h2 id="reset-title">Reset Miso’s stats?</h2>
+        <p>Weight, happiness, and energy will return to their starting values.</p>
+        <div class="dialog-actions">
+          <button value="cancel" class="dialog-cancel" autofocus>Cancel</button>
+          <button value="reset" class="dialog-confirm">Reset</button>
         </div>
-        <div class="care-header"><h3>A little time together</h3><span>Pick an activity</span></div>
-        <div class="button-container">
-          <button type="button" class="care-button treat-button" data-action="treat"><span class="button-icon" aria-hidden="true">♧</span><span><strong>Treat</strong><small>Happiness +10 · Weight +1</small></span><span class="button-arrow" aria-hidden="true">↗</span></button>
-          <button type="button" class="care-button play-button" data-action="play"><span class="button-icon" aria-hidden="true">✳</span><span><strong>Play</strong><small>Happiness +15 · Weight −1</small></span><span class="button-arrow" aria-hidden="true">↗</span></button>
-          <button type="button" class="care-button exercise-button" data-action="exercise"><span class="button-icon" aria-hidden="true">↝</span><span><strong>Exercise</strong><small>Happiness −5 · Weight −1</small></span><span class="button-arrow" aria-hidden="true">↗</span></button>
-          <button type="button" class="care-button nap-button" data-action="nap"><span class="button-icon" aria-hidden="true">☾</span><span><strong>Nap</strong><small>Energy +25 · Happiness +5</small></span><span class="button-arrow" aria-hidden="true">↗</span></button>
-        </div>
-        <p class="care-hint">Play uses 15 energy. Exercise uses 20. A nap tops it up.<br>Low energy? Take a nap. Empty tummy? Have a treat.</p>
-      </section>
-    </div>
-    <div class="session-bar"><p><span class="session-dot" aria-hidden="true"></span><strong id="activity-count">0</strong> moments together<span class="session-divider">·</span>A good day starts with a little company.</p><button type="button" class="text-button" id="reset-button">Start fresh <span aria-hidden="true">↺</span></button></div>
-  </main>
-  <footer><span>MISO <span aria-hidden="true">✳</span> A LITTLE GIGAPET</span><span>Take a breath. Pet the cat.</span></footer>
-  <dialog id="reset-dialog" aria-labelledby="reset-title"><form method="dialog"><p class="eyebrow">A NEW LITTLE DAY</p><h2 id="reset-title">Start fresh with Miso?</h2><p>This resets Miso’s stats and your activity count.</p><div class="dialog-actions"><button value="cancel" class="dialog-cancel" autofocus>Keep playing</button><button value="reset" class="dialog-confirm">Start fresh</button></div></form></dialog>
-</body>
+      </form>
+    </dialog>
+  </body>
 </html>
