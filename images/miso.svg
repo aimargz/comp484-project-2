@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320">
+  <title>Miso the orange cat</title>
+  <g stroke="#70452d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M233 253c65 5 67-64 38-65-20 0-12 28-30 29" fill="#d98c4e"/>
+    <path d="M268 188q-7 11 2 19m-24 14 9 16" fill="none"/>
+    <path d="M86 211q-22 54 15 68h119q36-11 16-68" fill="#e7a364"/>
+    <ellipse cx="163" cy="247" rx="46" ry="34" fill="#f7d6a5" stroke="none"/>
+    <path d="m88 125-9-78q2-13 14-6l50 36m87 48 8-78q-2-13-14-6l-50 36" fill="#e7a364"/>
+    <path d="m92 88-1-32 29 25m82 0 24-24-1 34" fill="#d58d7c" stroke="none"/>
+    <path d="M72 152q-2-80 88-80t89 80q11 77-87 81-98-2-90-81" fill="#ecad73"/>
+    <path d="m143 75 6 23m14-25v25m20-23-6 23" fill="none" stroke="#bd743c" stroke-width="8"/>
+    <path d="m76 144 18 5m-19 12 17 2m151-19-17 5m18 12-17 2" stroke="#bd743c" stroke-width="6"/>
+    <ellipse cx="120" cy="173" rx="15" ry="9" fill="#e79576" stroke="none"/>
+    <ellipse cx="204" cy="173" rx="15" ry="9" fill="#e79576" stroke="none"/>
+    <path d="M111 151q9-12 18 0m67 0q9-12 18 0" fill="none"/>
+    <path d="m155 165 7 7 7-7z" fill="#70452d" stroke-width="3"/>
+    <path d="M162 172v6q-11 12-19 1m19-1q11 12 19 1M82 175l-21-5m21 15-20 5m178-15 21-5m-21 15 20 5" fill="none" stroke-width="3"/>
+    <path d="M111 222q48 19 101-1l-4 13q-44 18-91 0z" fill="#647447"/>
+    <circle cx="163" cy="238" r="8" fill="#e9c560" stroke-width="3"/>
+    <path d="M118 253v24m89-24v24m-103-2h29m61 0h26" fill="none"/>
+  </g>
+</svg>
